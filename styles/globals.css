@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Slightly darker, lower-saturation corporate eco palette */
+    --background: 160 14% 92%;
+    --foreground: 166 24% 13%;
+    --card: 160 11% 94%;
+    --card-foreground: 166 24% 13%;
+    --popover: 160 11% 94%;
+    --popover-foreground: 166 24% 13%;
+    --primary: 162 34% 30%;
+    --primary-foreground: 160 22% 96%;
+    --secondary: 162 10% 84%;
+    --secondary-foreground: 166 18% 20%;
+    --muted: 160 10% 87%;
+    --muted-foreground: 166 12% 36%;
+    --accent: 167 26% 56%;
+    --accent-foreground: 166 26% 12%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 162 10% 75%;
+    --input: 162 10% 75%;
+    --ring: 162 34% 30%;
+    --chart-1: 162 34% 30%;
+    --chart-2: 167 26% 56%;
+    --chart-3: 166 30% 24%;
+    --chart-4: 162 16% 72%;
+    --chart-5: 160 20% 44%;
+    --radius: 0.75rem;
+    --sidebar-background: 162 12% 91%;
+    --sidebar-foreground: 166 22% 18%;
+    --sidebar-primary: 162 34% 30%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 162 10% 84%;
+    --sidebar-accent-foreground: 166 22% 18%;
+    --sidebar-border: 162 10% 75%;
+    --sidebar-ring: 162 34% 30%;
+
+    /* Custom eco tokens */
+    --pine: 166 33% 24%;
+    --pine-light: 166 23% 34%;
+    --seafoam: 168 24% 56%;
+    --mint: 162 16% 84%;
+    --fern: 162 34% 30%;
+  }
+
+  .dark {
+    --background: 165 14% 7%;
+    --foreground: 160 18% 91%;
+    --card: 165 13% 9%;
+    --card-foreground: 160 18% 91%;
+    --popover: 165 13% 9%;
+    --popover-foreground: 160 18% 91%;
+    --primary: 163 40% 48%;
+    --primary-foreground: 165 12% 7%;
+    --secondary: 165 9% 16%;
+    --secondary-foreground: 160 16% 88%;
+    --muted: 165 8% 18%;
+    --muted-foreground: 160 10% 68%;
+    --accent: 166 34% 40%;
+    --accent-foreground: 165 14% 7%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 165 8% 22%;
+    --input: 165 8% 22%;
+    --ring: 163 40% 48%;
+    --chart-1: 163 40% 48%;
+    --chart-2: 166 34% 40%;
+    --chart-3: 160 14% 80%;
+    --chart-4: 160 12% 62%;
+    --chart-5: 160 18% 52%;
+    --sidebar-background: 165 10% 10%;
+    --sidebar-foreground: 160 16% 90%;
+    --sidebar-primary: 163 40% 48%;
+    --sidebar-primary-foreground: 165 12% 7%;
+    --sidebar-accent: 165 9% 16%;
+    --sidebar-accent-foreground: 160 16% 90%;
+    --sidebar-border: 165 8% 22%;
+    --sidebar-ring: 163 40% 48%;
+
+    --pine: 160 14% 78%;
+    --pine-light: 160 16% 66%;
+    --seafoam: 166 30% 54%;
+    --mint: 165 10% 19%;
+    --fern: 163 40% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Mosaic tile background pattern */
+.mosaic-bg {
+  background-color: hsl(160 14% 92%);
+  background-image:
+    linear-gradient(30deg, hsl(166 33% 24% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(166 33% 24% / 0.05) 87.5%, hsl(166 33% 24% / 0.05)),
+    linear-gradient(150deg, hsl(166 33% 24% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(166 33% 24% / 0.05) 87.5%, hsl(166 33% 24% / 0.05)),
+    linear-gradient(30deg, hsl(166 33% 24% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(166 33% 24% / 0.05) 87.5%, hsl(166 33% 24% / 0.05)),
+    linear-gradient(150deg, hsl(166 33% 24% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(166 33% 24% / 0.05) 87.5%, hsl(166 33% 24% / 0.05)),
+    linear-gradient(60deg, hsl(168 24% 56% / 0.07) 25%, transparent 25.5%, transparent 75%, hsl(168 24% 56% / 0.07) 75%, hsl(168 24% 56% / 0.07)),
+    linear-gradient(60deg, hsl(168 24% 56% / 0.07) 25%, transparent 25.5%, transparent 75%, hsl(168 24% 56% / 0.07) 75%, hsl(168 24% 56% / 0.07));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+}
+
+.dark .mosaic-bg {
+  background-color: hsl(165 14% 7%);
+  background-image:
+    linear-gradient(30deg, hsl(163 40% 48% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(163 40% 48% / 0.05) 87.5%, hsl(163 40% 48% / 0.05)),
+    linear-gradient(150deg, hsl(163 40% 48% / 0.05) 12%, transparent 12.5%, transparent 87%, hsl(163 40% 48% / 0.05) 87.5%, hsl(163 40% 48% / 0.05)),
+    linear-gradient(30deg, hsl(166 34% 40% / 0.06) 12%, transparent 12.5%, transparent 87%, hsl(166 34% 40% / 0.06) 87.5%, hsl(166 34% 40% / 0.06)),
+    linear-gradient(150deg, hsl(166 34% 40% / 0.06) 12%, transparent 12.5%, transparent 87%, hsl(166 34% 40% / 0.06) 87.5%, hsl(166 34% 40% / 0.06)),
+    linear-gradient(60deg, hsl(166 34% 40% / 0.07) 25%, transparent 25.5%, transparent 75%, hsl(166 34% 40% / 0.07) 75%, hsl(166 34% 40% / 0.07)),
+    linear-gradient(60deg, hsl(163 40% 48% / 0.06) 25%, transparent 25.5%, transparent 75%, hsl(163 40% 48% / 0.06) 75%, hsl(163 40% 48% / 0.06));
+}
+
+/* Pine gradient for hero/accent areas */
+.pine-gradient {
+  background: linear-gradient(135deg, hsl(166 33% 24%), hsl(166 23% 34%), hsl(162 34% 30%));
+}
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(160 10% 86%);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(162 10% 68%);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(162 34% 30%);
+}
+
+/* dark styling */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(165 6% 19%);
+  border-radius: 3px;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(163 10% 27%);
+  border-radius: 3px;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(163 40% 48%);
+}
+
+/* Typing animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.typing-cursor::after {
+  content: '|';
+  animation: blink 1s infinite;
+  color: hsl(162 34% 30%);
+  margin-left: 1px;
+}

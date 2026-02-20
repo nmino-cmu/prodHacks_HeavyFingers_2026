@@ -1,0 +1,3 @@
+# Optional local overrides for Next.js.
+# Set DEDALUS_API_KEY here only if you want to override .env.
+DEDALUS_API_KEY=

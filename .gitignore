@@ -1,0 +1,16 @@
+/HeavyFingersTartanHacks
+wallet.json
+wallet*.json
+todo.md
+.env
+.env.local
+/dedalus_stuff/.env.local
+package-lock.json
+/node_modules
+/.next
+/dedalus_stuff/conversations
+.env.example
+".env 2.local"
+repomix-output.xml
+repomix-output-*.xml
+demo.txt
