@@ -1,0 +1,198 @@
+{
+  "startedAt": "2026-02-20T16:04:36.777Z",
+  "finishedAt": "2026-02-20T16:08:59.960Z",
+  "baseUrl": "http://127.0.0.1:4321",
+  "userId": "sim-user-avg",
+  "model": "anthropic/claude-opus-4-5",
+  "results": [
+    {
+      "profile": "high",
+      "label": "High impact (max sensitivity, min compression)",
+      "settings": {
+        "routingSensitivity": 100,
+        "historyCompression": 0
+      },
+      "requestCount": 100,
+      "successCount": 100,
+      "errorCount": 0,
+      "totalPromptTokens": 242441,
+      "totalCompletionTokens": 11100,
+      "totalTokens": 253541,
+      "totalFootprintKg": 0.12677050000000004,
+      "modelCounts": {
+        "anthropic/claude-haiku-4-5": 100
+      },
+      "sourceCounts": {
+        "provider-usage": 100
+      },
+      "firstErrors": [],
+      "avgPromptTokens": 2424.41,
+      "avgCompletionTokens": 111,
+      "avgTotalTokens": 2535.41,
+      "avgFootprintKg": 0.0012677050000000003
+    },
+    {
+      "profile": "medium",
+      "label": "Medium (mid knobs)",
+      "settings": {
+        "routingSensitivity": 50,
+        "historyCompression": 50
+      },
+      "requestCount": 100,
+      "successCount": 100,
+      "errorCount": 0,
+      "totalPromptTokens": 148153,
+      "totalCompletionTokens": 11100,
+      "totalTokens": 159253,
+      "totalFootprintKg": 0.07962650000000002,
+      "modelCounts": {
+        "anthropic/claude-haiku-4-5": 100
+      },
+      "sourceCounts": {
+        "provider-usage": 100
+      },
+      "firstErrors": [],
+      "avgPromptTokens": 1481.53,
+      "avgCompletionTokens": 111,
+      "avgTotalTokens": 1592.53,
+      "avgFootprintKg": 0.0007962650000000002
+    },
+    {
+      "profile": "low",
+      "label": "Low impact (min sensitivity, max compression)",
+      "settings": {
+        "routingSensitivity": 0,
+        "historyCompression": 100
+      },
+      "requestCount": 100,
+      "successCount": 100,
+      "errorCount": 0,
+      "totalPromptTokens": 72269,
+      "totalCompletionTokens": 11100,
+      "totalTokens": 83369,
+      "totalFootprintKg": 0.0416845,
+      "modelCounts": {
+        "anthropic/claude-haiku-4-5": 100
+      },
+      "sourceCounts": {
+        "provider-usage": 100
+      },
+      "firstErrors": [],
+      "avgPromptTokens": 722.69,
+      "avgCompletionTokens": 111,
+      "avgTotalTokens": 833.69,
+      "avgFootprintKg": 0.000416845
+    }
+  ],
+  "usageProjection": {
+    "description": "Projection for 30 employees sending 200-300 messages per day.",
+    "assumptions": {
+      "employees": 30,
+      "messagesPerEmployeePerDay": {
+        "min": 200,
+        "max": 300
+      },
+      "totalMessagesPerDay": {
+        "min": 6000,
+        "max": 9000
+      },
+      "horizonDays": 30,
+      "source": "Derived from avg per-message tokens/carbon in this benchmark JSON"
+    },
+    "profiles": {
+      "high": {
+        "label": "High impact (max sensitivity, min compression)",
+        "knobs": {
+          "routingSensitivity": 100,
+          "historyCompression": 0
+        },
+        "perMessage": {
+          "avgTokens": 2535.41,
+          "avgCarbonKg": 0.0012677050000000003
+        },
+        "perDay": {
+          "tokens": {
+            "min": 15212460,
+            "max": 22818690
+          },
+          "carbonKg": {
+            "min": 7.606230000000002,
+            "max": 11.409345000000002
+          }
+        },
+        "for30Days": {
+          "tokens": {
+            "min": 456373800,
+            "max": 684560700
+          },
+          "carbonKg": {
+            "min": 228.18690000000007,
+            "max": 342.28035000000006
+          }
+        }
+      },
+      "medium": {
+        "label": "Medium (mid knobs)",
+        "knobs": {
+          "routingSensitivity": 50,
+          "historyCompression": 50
+        },
+        "perMessage": {
+          "avgTokens": 1592.53,
+          "avgCarbonKg": 0.0007962650000000002
+        },
+        "perDay": {
+          "tokens": {
+            "min": 9555180,
+            "max": 14332770
+          },
+          "carbonKg": {
+            "min": 4.777590000000001,
+            "max": 7.166385000000002
+          }
+        },
+        "for30Days": {
+          "tokens": {
+            "min": 286655400,
+            "max": 429983100
+          },
+          "carbonKg": {
+            "min": 143.32770000000002,
+            "max": 214.99155000000005
+          }
+        }
+      },
+      "low": {
+        "label": "Low impact (min sensitivity, max compression)",
+        "knobs": {
+          "routingSensitivity": 0,
+          "historyCompression": 100
+        },
+        "perMessage": {
+          "avgTokens": 833.69,
+          "avgCarbonKg": 0.000416845
+        },
+        "perDay": {
+          "tokens": {
+            "min": 5002140,
+            "max": 7503210.000000001
+          },
+          "carbonKg": {
+            "min": 2.50107,
+            "max": 3.751605
+          }
+        },
+        "for30Days": {
+          "tokens": {
+            "min": 150064200,
+            "max": 225096300.00000003
+          },
+          "carbonKg": {
+            "min": 75.0321,
+            "max": 112.54815
+          }
+        }
+      }
+    }
+  }
+}

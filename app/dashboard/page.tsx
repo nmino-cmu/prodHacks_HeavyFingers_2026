@@ -63,11 +63,28 @@ function formatNumber(value: number): string {
   return Math.max(0, Math.round(value)).toLocaleString()
 }
 
+function toDayKey(date: Date): string {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
+
+function getWeekStartKey(date: Date): string {
+  const weekStart = new Date(date)
+  weekStart.setHours(0, 0, 0, 0)
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay())
+  return toDayKey(weekStart)
+}
+
 function formatKg(value: number): string {
-  if (value >= 1) {
-    return `${value.toFixed(2)} kg CO2e`
+  if (!Number.isFinite(value) || value <= 0) {
+    return "0 kg CO2e"
   }
-  return `${(value * 1000).toFixed(2)} g CO2e`
+
+  const roundedKg = Math.round(value * 10_000_000) / 10_000_000
+  const text = roundedKg.toFixed(7).replace(/\.?0+$/, "")
+  return `${text} kg CO2e`
 }
 
 function formatDate(value: string): string {
@@ -199,24 +216,55 @@ export default function CarbonDashboardPage() {
   }, [data, selectedUserId])
 
   const topKpiBars = useMemo(() => {
-    const barCount = 16
-    if (!data || data.conversations.length === 0) {
-      return Array.from({ length: barCount }, () => 0.35)
-    }
+    const dayCount = 7
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-    const values = data.conversations
-      .slice(0, barCount)
-      .map((conversation) => Math.max(conversation.footprintKg, 0.0000001))
-    while (values.length < barCount) {
-      values.push(values[values.length - 1] ?? 0.35)
-    }
-
-    const maxValue = Math.max(...values)
-    return values.map((value) => {
-      if (maxValue <= 0) {
-        return 0.35
+    const dailyFootprint = new Map<string, number>()
+    const dayWeekKey = new Map<string, string>()
+    for (const conversation of data?.conversations ?? []) {
+      const parsedDate = new Date(conversation.updatedAt)
+      if (Number.isNaN(parsedDate.getTime())) {
+        continue
       }
-      return Math.min(1, Math.max(0.25, value / maxValue))
+      parsedDate.setHours(0, 0, 0, 0)
+      const dayKey = toDayKey(parsedDate)
+      dayWeekKey.set(dayKey, getWeekStartKey(parsedDate))
+      dailyFootprint.set(dayKey, (dailyFootprint.get(dayKey) ?? 0) + Math.max(0, conversation.footprintKg))
+    }
+
+    const renderStart = new Date(today)
+    renderStart.setDate(today.getDate() - (dayCount - 1))
+    const days = Array.from({ length: dayCount }, (_, index) => {
+      const day = new Date(renderStart)
+      day.setDate(renderStart.getDate() + index)
+      const dayKey = toDayKey(day)
+      return {
+        weekKey: getWeekStartKey(day),
+        footprintKg: dailyFootprint.get(dayKey) ?? 0,
+      }
+    })
+
+    const weekMaxMap = new Map<string, number>()
+    for (const [dayKey, footprintKg] of dailyFootprint) {
+      const weekKey = dayWeekKey.get(dayKey)
+      if (!weekKey) {
+        continue
+      }
+      weekMaxMap.set(weekKey, Math.max(weekMaxMap.get(weekKey) ?? 0, footprintKg))
+    }
+
+    return days.map((day, index) => {
+      const weekMax = weekMaxMap.get(day.weekKey) ?? 0
+      const heightRatio =
+        weekMax <= 0 || day.footprintKg <= 0
+          ? 0.08
+          : Math.min(1, Math.max(0.12, day.footprintKg / weekMax))
+
+      return {
+        heightRatio,
+        startsNewWeek: index > 0 && day.weekKey !== days[index - 1].weekKey,
+      }
     })
   }, [data])
 
@@ -408,7 +456,7 @@ export default function CarbonDashboardPage() {
             <article className="rounded-xl border border-slate-800 bg-gradient-to-r from-slate-900/90 to-slate-800/80 p-5">
               <p className="text-sm text-slate-400">Carbon (kgCO2e)</p>
               <p className="mt-2 text-4xl font-semibold text-slate-100">
-                {data ? data.summary.footprintKg.toFixed(3) : "—"}
+                {data ? formatKg(data.summary.footprintKg).replace(" kg CO2e", "") : "—"}
               </p>
               <p className="mt-3 font-mono text-sm text-emerald-300">
                 {data ? formatKg(data.summary.averageConversationFootprintKg) : "—"} avg per conversation
@@ -429,11 +477,13 @@ export default function CarbonDashboardPage() {
 
           <div className="mt-6 rounded-xl border border-slate-800 bg-gradient-to-r from-slate-900/95 to-slate-800/75 p-4">
             <div className="flex h-36 items-end gap-2 md:gap-3">
-              {topKpiBars.map((heightRatio, index) => (
+              {topKpiBars.map((bar, index) => (
                 <div
                   key={`kpi-bar-${index}`}
-                  className="flex-1 rounded-md bg-gradient-to-t from-emerald-700/70 via-emerald-600/70 to-emerald-400/80"
-                  style={{ height: `${Math.round(heightRatio * 100)}%` }}
+                  className={`flex-1 rounded-md bg-gradient-to-t from-emerald-700/70 via-emerald-600/70 to-emerald-400/80 ${
+                    bar.startsNewWeek ? "ml-2" : ""
+                  }`}
+                  style={{ height: `${Math.round(bar.heightRatio * 100)}%` }}
                 />
               ))}
             </div>

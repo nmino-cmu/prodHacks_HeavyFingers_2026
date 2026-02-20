@@ -1,0 +1,8 @@
+{
+  "routingSensitivity": 100,
+  "historyCompression": 0,
+  "userPromptThresholds": {
+    "proof-user-1": 300
+  },
+  "lockedUserKnobs": {}
+}
